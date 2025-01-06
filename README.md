@@ -22,25 +22,14 @@ PanelZap é uma ferramenta poderosa e intuitiva projetada para simplificar suas 
     npm install
     ```
 
-3. **Set up environment variables:**
+3. **Run the installation command:**
     ```bash
-    cp .env.example .env
-    php artisan key:generate
+    php artisan install
     ```
 
-4. **Run migrations:**
+4. **Create a user:**
     ```bash
-    php artisan migrate
-    ```
-
-5. **Build assets:**
-    ```bash
-    npm run build
-    ```
-
-6. **Serve the application:**
-    ```bash
-    php artisan serve
+    php artisan makeUser
     ```
 
 ### Português
@@ -57,33 +46,22 @@ PanelZap é uma ferramenta poderosa e intuitiva projetada para simplificar suas 
     npm install
     ```
 
-3. **Configure as variáveis de ambiente:**
+3. **Execute o comando de instalação:**
     ```bash
-    cp .env.example .env
-    php artisan key:generate
+    php artisan install
     ```
 
-4. **Execute as migrações:**
+4. **Crie um usuário:**
     ```bash
-    php artisan migrate
+    php artisan makeUser
     ```
 
-5. **Compile os assets:**
-    ```bash
-    npm run build
-    ```
+## Deployment Guide
 
-6. **Sirva a aplicação:**
-    ```bash
-    php artisan serve
-    ```
+### English
 
-    ## Deployment Guide
+Follow these steps to deploy PanelZap in a production environment. For a detailed walkthrough, watch our [deployment video](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
 
-    ### English
+### Português
 
-    Follow these steps to deploy PanelZap in a production environment. For a detailed walkthrough, watch our [deployment video](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
-
-    ### Português
-
-    Siga estes passos para implantar o PanelZap em um ambiente de produção. Para um tutorial detalhado, assista ao nosso [vídeo de implantação](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
+Siga estes passos para implantar o PanelZap em um ambiente de produção. Para um tutorial detalhado, assista ao nosso [vídeo de implantação](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
