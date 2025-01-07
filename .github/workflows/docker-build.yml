@@ -1,0 +1,32 @@
+name: Docker Build
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout do código do repositório
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Login no GitHub Container Registry
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    # Build e Push da Imagem
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository }}:latest
+          ghcr.io/${{ github.repository }}:${{ github.ref_name }}

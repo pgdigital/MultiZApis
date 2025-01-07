@@ -21,7 +21,7 @@ class MakeUserCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Command to create first user';
 
     /**
      * Execute the console command.
