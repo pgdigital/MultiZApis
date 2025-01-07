@@ -17,20 +17,31 @@ jobs:
       contents: read
       packages: write
     steps:
+      # Converter o nome do repositório para lowercase
       - name: Convert to lowercase
-          id: convert
-          run: |
-            lower_name=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-            echo "lower_name=${lower_name}" >> $GITHUB_ENV
-      - name: checkout mode
+        id: convert
+        run: |
+          lower_name=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "lower_name=${lower_name}" >> $GITHUB_ENV
+
+      # Fazer checkout do repositório
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Login to github container registry
+
+      # Fazer login no GitHub Container Registry
+      - name: Login to GitHub Container Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # Construir e enviar a imagem mais recente
       - name: Build the Docker Image Latest
         run: docker build -t ghcr.io/${{ env.lower_name }}:latest .
+
       - name: Push the Docker Image Latest
         run: docker push ghcr.io/${{ env.lower_name }}:latest
+
+      # Construir e enviar a imagem com a tag da versão
       - name: Build the Docker Image Version
         run: docker build -t ghcr.io/${{ env.lower_name }}:${{ github.ref_name }} .
+
       - name: Push the Docker Image Version
         run: docker push ghcr.io/${{ env.lower_name }}:${{ github.ref_name }}
