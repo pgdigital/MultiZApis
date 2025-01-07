@@ -8,25 +8,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
     steps:
-    # Checkout do código do repositório
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    # Login no GitHub Container Registry
-    - name: Log in to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    # Build e Push da Imagem
-    - name: Build and Push Docker Image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:latest
-          ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+      - name: checkout mode
+        uses: actions/checkout@v3
+      - name: Login to github container registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build the Docker Image Latest
+        run: docker build -t ghcr.io/${{ github.repository }}:latest .
+      - name: Push the Docker Image Latest
+        run: docker push ghcr.io/${{ github.repository }}:latest
+      - name: Build the Docker Image Version
+        run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
+      - name: Push the Docker Image Version
+        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
