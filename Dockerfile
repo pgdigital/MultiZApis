@@ -1,13 +1,11 @@
 FROM node:latest AS node
-FROM php:8.3
+FROM php:8.3-cli
 
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
-COPY ./ /var/www/html
-
-WORKDIR /var/www/html
+COPY . /var/www/html
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -39,6 +37,8 @@ RUN docker-php-ext-install -j$(nproc) \
     pcntl 
 
 RUN pecl install redis && docker-php-ext-enable redis
+
+WORKDIR /var/www/html
 
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
