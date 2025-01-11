@@ -3,6 +3,7 @@ services:
     image: ghcr.io/panelzap/panelzap:0.0.2
     volumes:
       - .:/var/www/html
+    command: php artisan serve --host=0.0.0.0 --port=8000
     environment:
       - APP_NAME="PanelZap"
       - APP_ENV="production"
