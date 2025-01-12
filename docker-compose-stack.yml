@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/panelzap/panelzap:0.0.3
+    image: ghcr.io/panelzap/panelzap:0.1.0
     volumes:
       - .:/var/www/html
     command: php artisan serve --host=0.0.0.0 --port=8000
