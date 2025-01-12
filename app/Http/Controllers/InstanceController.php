@@ -46,6 +46,15 @@ class InstanceController extends Controller
      */
     public function create()
     {
+        $clientQuantityInstances = Instance::where('client_id', auth()->user()->client->id)->count();
+
+        if(
+            auth()->user()->client && 
+            auth()->user()->client->quantity_instance == $clientQuantityInstances)
+        {
+            abort(403, 'Você não tem mais limite de instâncias');
+        }
+
         $clients = Client::query()->where('clients.status', 'Ativo')
             ->leftJoin('instances', 'clients.id', '=', 'instances.client_id')
             ->select('clients.*')
