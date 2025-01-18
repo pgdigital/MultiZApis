@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -43,6 +44,19 @@ Route::middleware('auth')->group(function () {
         ]);
 
     Route::post('instances/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
+    Route::resource('campanhas', CampaignController::class)
+        ->parameters([
+            'campanhas' => 'campaign'
+        ])
+        ->names([
+            'index' => 'campaigns.index',
+            'create' => 'campaigns.create',
+            'store' => 'campaigns.store',
+            'show' => 'campaigns.show',
+            'edit' => 'campaigns.edit',
+            'update' => 'campaigns.update',
+            'destroy' => 'campaigns.destroy'
+        ]);
     
     Route::get('configuracao/evolution', [ConfigurationController::class, 'index'])->name('configuration.evolution');
     Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'update'])->name('configuration.evolution.update');

@@ -24,4 +24,9 @@ class Client extends Model
     {
         return $this->hasMany(Instance::class);
     }
+
+    public function campaigns(): HasMany
+    {
+        return $this->hasMany(Campaign::class);
+    }
 }
