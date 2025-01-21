@@ -46,7 +46,9 @@ class InstanceController extends Controller
      */
     public function create()
     {
-        $clientQuantityInstances = Instance::where('client_id', auth()->user()->client->id)->count();
+        $clientQuantityInstances = Instance::when(auth()->user()->client, function($query) {
+            $query->where('client_id', auth()->user()->client->id);
+        })->count();
 
         if(
             auth()->user()->client && 
