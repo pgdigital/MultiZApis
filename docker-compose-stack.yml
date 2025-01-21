@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/panelzap/panelzap:0.2.0
+    image: ghcr.io/panelzap/panelzap:0.3.0
     volumes:
       - .:/var/www/html
     command: php artisan serve --host=0.0.0.0 --port=8000
@@ -13,6 +13,7 @@ services:
       - APP_URL=https://suaurldopainel.com.br
       - APP_LOGO_PATH=/images/app-logo.svg
       - APP_LOCALE=pt_BR
+      - INSTANCE_PRIMARY_NAME=instancia # nome da sua instancia principal
       - APP_MAINTENANCE_DRIVER=file
       - PHP_CLI_SERVER_WORKERS=4
       - BCRYPT_ROUNDS=12
