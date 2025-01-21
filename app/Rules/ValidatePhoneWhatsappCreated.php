@@ -19,7 +19,7 @@ class ValidatePhoneWhatsappCreated implements ValidationRule
             $value = '55' . $value;
         }
         
-        $exists = EvolutionService::checkWhatsappNumber(preg_replace('/[^0-9]/', '', $value));
+        $exists = EvolutionService::checkWhatsappNumber(config('app.instance_primary'), preg_replace('/[^0-9]/', '', $value));
 
         if(!$exists) {
             $fail("O número de telefone não está registrado no WhatsApp");

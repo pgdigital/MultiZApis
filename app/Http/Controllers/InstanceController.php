@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\WhatsappIntegration;
 use App\Http\Requests\InstanceRequest;
 use App\Services\EvolutionService;
+use Illuminate\Support\Facades\Log;
 
 class InstanceController extends Controller
 {
@@ -29,7 +30,7 @@ class InstanceController extends Controller
             ->select('clients.*')
             ->selectRaw('count(instances.id) as instances_count')
             ->groupBy('clients.id')
-            ->havingRaw('clients.quantity_instance > instances_count')
+            ->havingRaw('clients.quantity_instance > count(instances.id)')
             ->exists();
 
         $whatsappIntegration = WhatsappIntegration::where("is_active", true)->first();
@@ -46,7 +47,9 @@ class InstanceController extends Controller
      */
     public function create()
     {
-        $clientQuantityInstances = Instance::where('client_id', auth()->user()->client->id)->count();
+        $clientQuantityInstances = Instance::when(auth()->user()->client, function($query) {
+            $query->where('client_id', auth()->user()->client->id);
+        })->count();
 
         if(
             auth()->user()->client && 
@@ -60,7 +63,7 @@ class InstanceController extends Controller
             ->select('clients.*')
             ->selectRaw('count(instances.id) as instances_count')
             ->groupBy('clients.id')
-            ->havingRaw('clients.quantity_instance > instances_count')
+            ->havingRaw('clients.quantity_instance > count(instances.id)')
         ->get();
 
         return view('instance.create', [
@@ -77,7 +80,7 @@ class InstanceController extends Controller
         
         try {
             Instance::create($validatedData);
-            return back()->with('success', 'Instância criada com sucesso!');
+            return redirect()->route('instances.index')->with('success', 'Instância criada com sucesso!');
         } catch (\Exception $e) {
             dd($e);
             return back()->with('error', 'Erro ao criar instância!');
@@ -143,8 +146,14 @@ class InstanceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Instance $instance)
     {
-        //
+        try {
+            $instance->delete();
+            return back()->with('success', 'Instância excluída com sucesso');
+        } catch (\Exception $exception) {
+            Log::channel('daily')->error('Erro ao excluir o instância: ' . $exception->getMessage());
+            return back()->with('error', 'Não foi possível excluir o instância');
+        }
     }
 }

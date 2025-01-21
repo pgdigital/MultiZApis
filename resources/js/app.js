@@ -1,5 +1,6 @@
 import Alpine from "alpinejs";
 import "./bootstrap"
+import "./components/confirmDelete"
 
 // AlpineJS Plugins
 import persist from "@alpinejs/persist"; // @see https://alpinejs.dev/plugins/persist
@@ -51,6 +52,8 @@ import ApexCharts from "apexcharts";
     @see https://gridjs.io/
 */
 import * as Gridjs from "gridjs";
+
+import Swal from 'sweetalert2'
 
 //  Forms Libraries
 import "@caneara/iodine"; // @see https://github.com/caneara/iodine
@@ -106,6 +109,7 @@ window.FilePond = FilePond;
 window.flatpickr = flatpickr;
 window.Quill = Quill;
 window.Tom = Tom;
+window.Swal = Swal;
 
 window.Alpine = Alpine;
 window.helpers = helpers;

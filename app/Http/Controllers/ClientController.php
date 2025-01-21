@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\User;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ClientController extends Controller
 {
@@ -99,8 +100,9 @@ class ClientController extends Controller
     {
         DB::beginTransaction();
         try {
+            $user = $client->user;
             $client->delete();
-            $client->user->delete();
+            $user->delete();
 
             DB::commit();
             return back()->with('success', 'Cliente excluído com sucesso');
