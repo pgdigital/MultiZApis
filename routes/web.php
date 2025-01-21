@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'instances.destroy'
         ]);
 
-    Route::post('instances/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
+    Route::post('instancias/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
     Route::resource('campanhas', CampaignController::class)
         ->parameters([
             'campanhas' => 'campaign'

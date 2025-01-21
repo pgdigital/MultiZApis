@@ -156,4 +156,9 @@ class InstanceController extends Controller
             return back()->with('error', 'Não foi possível excluir o instância');
         }
     }
+
+    public function connect(Instance $instance)
+    {
+        return EvolutionService::instanceConnect($instance->name);
+    }
 }
