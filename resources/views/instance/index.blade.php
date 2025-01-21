@@ -107,6 +107,11 @@
                       <form action="{{route('instances.recreate', $instance->id)}}" method="post" id="form-recreate-instance-{{$instance->id}}">
                         @csrf
                       </form>
+                      <a href="{{route('instances.destroy', $instance->id)}}" onclick="event.preventDefault(); confirmDelete('form-delete-{{$instance->id}}', 'Você realmente deseja excluir este registro ?', 'Sim', 'Não')"><i class="fas fa-trash"></i></a>
+                        <form action="{{route('instances.destroy', $instance->id)}}" id="form-delete-{{$instance->id}}" method="post">
+                          @csrf
+                          @method('delete')
+                        </form>
                     </td>
                   </tr>
                 @endforeach
