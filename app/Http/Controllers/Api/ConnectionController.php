@@ -11,9 +11,9 @@ class ConnectionController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke($instanceName)
+    public function __invoke($instanceId)
     {
-        Instance::query()->where('name', $instanceName)->update([
+        Instance::query()->where('id', $instanceId)->update([
             'status' => 'Conectado'
         ]);
     }

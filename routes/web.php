@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'instances.destroy'
         ]);
 
-    Route::post('instances/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
+    Route::post('instancias/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
     
     Route::get('configuracao/evolution', [ConfigurationController::class, 'index'])->name('configuration.evolution');
     Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'update'])->name('configuration.evolution.update');

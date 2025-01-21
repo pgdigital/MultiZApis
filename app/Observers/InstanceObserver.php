@@ -22,7 +22,5 @@ class InstanceObserver
                 "CONNECTION_UPDATE"
             ]
         ]);
-
-        EvolutionService::instanceConnect($instance->name);
     }
 }
