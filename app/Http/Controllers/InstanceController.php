@@ -149,4 +149,9 @@ class InstanceController extends Controller
     {
         //
     }
+
+    public function connect(Instance $instance)
+    {
+        return EvolutionService::instanceConnect($instance->name);
+    }
 }

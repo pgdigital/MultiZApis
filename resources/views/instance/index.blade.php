@@ -62,7 +62,7 @@
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$instance->status}}</td>
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5 flex gap-2">
                       @if($instance->status != 'Conectado')
-                        <div x-data="instances('{{$instance->name}}')" x-init="$watch('showModal', () => socketini())">
+                        <div x-data="instances('{{$instance->id}}', '{{$instance->name}}')" x-init="$watch('showModal', () => socketini())">
                           <button
                             @click="showModal = true"
                             title="Conectar ao Whatsapp"
@@ -121,22 +121,25 @@
   <script src="{{asset('js/confirmation.js')}}"></script>
   <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('instances', (instanceName) => ({
+        Alpine.data('instances', (instanceId, instanceName) => ({
           showModal: false,
           qrCode: null,
-          socketini() {
+          async socketini() {
             let socket = null;
             if(this.showModal) {
-              console.log(this.wssUrl);
-              
               socket = io(this.wssUrl, {
                 transports: ['websocket']
               });
 
-              socket.on('qrcode.updated', (data) => {
-                this.qrCode = data.data.qrcode.base64
-              });
+              // socket.on('qrcode.updated', (data) => {
+              //   this.qrCode = data.data.qrcode.base64
+              // });
+              console.log(instanceId);
+              
 
+              const {data} = await axios.get(`/api/instances/connect/${instanceId}`)
+              this.qrCode = data.base64;
+              
               socket.on("connection.update", async (data) => {
                 const state = data.data.state;
 
@@ -146,7 +149,7 @@
                   
                   this.$notification({text:'Whatsapp conectado com sucesso!',variant:'success',position:'right-bottom'})
 
-                  await axios.post(`/api/connection/update/${instanceName}`);
+                  await axios.post(`/api/connection/update/${instanceId}`);
 
                   setTimeout(() => {
                     window.location.reload();
