@@ -12,7 +12,7 @@ interface WhatsappServiceInterface {
     public static function setProxyInstance($instanceName, $data);
     public static function setWebsocketInstance($instanceName, $data);
     public static function setSettingsInstance($instanceName, $data);
-    public static function checkWhatsappNumber($phone);
+    public static function checkWhatsappNumber($instanceName, $phone);
 
     public static function sendMessage($instanceName, $phone, $message);
 

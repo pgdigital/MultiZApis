@@ -102,9 +102,9 @@ class EvolutionService implements WhatsappServiceInterface
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    public static function checkWhatsappNumber($phone)
+    public static function checkWhatsappNumber($instanceName, $phone)
     {
-        $response = (new self)->clientInstance->post("/chat/whatsappNumbers/soconnect", [
+        $response = (new self)->clientInstance->post("/chat/whatsappNumbers/{$instanceName}", [
             'body' => json_encode([
                 'numbers' => [$phone]
             ])

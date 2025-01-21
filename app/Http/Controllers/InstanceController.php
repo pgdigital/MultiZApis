@@ -29,7 +29,7 @@ class InstanceController extends Controller
             ->select('clients.*')
             ->selectRaw('count(instances.id) as instances_count')
             ->groupBy('clients.id')
-            ->havingRaw('clients.quantity_instance > instances_count')
+            ->havingRaw('clients.quantity_instance > count(instances.id)')
             ->exists();
 
         $whatsappIntegration = WhatsappIntegration::where("is_active", true)->first();
@@ -62,7 +62,7 @@ class InstanceController extends Controller
             ->select('clients.*')
             ->selectRaw('count(instances.id) as instances_count')
             ->groupBy('clients.id')
-            ->havingRaw('clients.quantity_instance > instances_count')
+            ->havingRaw('clients.quantity_instance > count(instances.id)')
         ->get();
 
         return view('instance.create', [

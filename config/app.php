@@ -125,4 +125,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'instance_primary' => env('INSTANCE_PRIMARY_NAME')
+
 ];
