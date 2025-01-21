@@ -69,8 +69,12 @@ class EvolutionService implements WhatsappServiceInterface
     public static function deleteInstance($instanceName)
     {
 
-        (new self)->clientInstance->delete("/instance/logout/{$instanceName}");
+        $instanceStatus = self::getConnectionState($instanceName);
 
+        if($instanceStatus['instance']['state'] != 'close') {
+            (new self)->clientInstance->delete("/instance/logout/{$instanceName}");
+        }
+        
         $response = (new self)->clientInstance->delete("/instance/delete/{$instanceName}");
 
         return json_decode($response->getBody()->getContents(), true);
@@ -139,6 +143,13 @@ class EvolutionService implements WhatsappServiceInterface
     public static function getMessages($instanceName)
     {
         $response = (new self)->clientInstance->post("/chat/findMessages/{$instanceName}");
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    public static function getConnectionState($instanceName)
+    {
+        $response = (new self)->clientInstance->get("/instance/connectionState/{$instanceName}");
 
         return json_decode($response->getBody()->getContents(), true);
     }
