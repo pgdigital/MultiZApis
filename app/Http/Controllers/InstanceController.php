@@ -149,9 +149,13 @@ class InstanceController extends Controller
     public function destroy(Instance $instance)
     {
         try {
+
+            EvolutionService::deleteInstance($instance->name);
+
             $instance->delete();
             return back()->with('success', 'Instância excluída com sucesso');
         } catch (\Exception $exception) {
+            dd($exception);
             Log::channel('daily')->error('Erro ao excluir o instância: ' . $exception->getMessage());
             return back()->with('error', 'Não foi possível excluir o instância');
         }
