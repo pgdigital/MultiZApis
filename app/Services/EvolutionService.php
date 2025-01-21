@@ -68,6 +68,9 @@ class EvolutionService implements WhatsappServiceInterface
 
     public static function deleteInstance($instanceName)
     {
+
+        (new self)->clientInstance->delete("/instance/logout/{$instanceName}");
+
         $response = (new self)->clientInstance->delete("/instance/delete/{$instanceName}");
 
         return json_decode($response->getBody()->getContents(), true);
