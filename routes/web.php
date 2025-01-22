@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
             'update' => 'clients.update',
             'destroy' => 'clients.destroy'
         ]);
+    Route::post('clientes/reset-password/{client}', [ClientController::class, 'resetPassword'])->name('clients.reset-password');
 
     Route::resource('instancias', InstanceController::class)
         ->parameters([

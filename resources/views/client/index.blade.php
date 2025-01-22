@@ -49,12 +49,18 @@
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->quantity_instance}}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->status}}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                        <a href="{{route('clients.edit', $client->id)}}"><i class="fas fa-edit"></i></a>
-                        <a href="{{route('clients.destroy', $client->id)}}" onclick="event.preventDefault(); confirmDelete('form-delete-{{$client->id}}', 'Você realmente deseja excluir este registro ?', 'Sim', 'Não')"><i class="fas fa-trash"></i></a>
-                        <form action="{{route('clients.destroy', $client->id)}}" id="form-delete-{{$client->id}}" method="post">
-                          @csrf
-                          @method('delete')
-                        </form>
+                        <div class="flex items-center gap-2">
+                          <a href="{{route('clients.edit', $client->id)}}"><i class="fas fa-edit"></i></a>
+                          <a href="{{route('clients.reset-password', $client->id)}}" onclick="event.preventDefault(); document.getElementById('form-reset-password-{{$client->id}}').submit()"><i class="fas fa-exchange-alt"></i></a>
+                          <form action="{{route('clients.reset-password', $client->id)}}" id="form-reset-password-{{$client->id}}" method="post">
+                            @csrf
+                          </form>
+                          <a href="{{route('clients.destroy', $client->id)}}" onclick="event.preventDefault(); confirmDelete('form-delete-{{$client->id}}', 'Você realmente deseja excluir este registro ?', 'Sim', 'Não')"><i class="fas fa-trash"></i></a>
+                          <form action="{{route('clients.destroy', $client->id)}}" id="form-delete-{{$client->id}}" method="post">
+                            @csrf
+                            @method('delete')
+                          </form>
+                        </div>
                       </td>
                     </tr>
                   @endforeach
