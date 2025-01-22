@@ -20,7 +20,7 @@
                     </x-select>
                 @endif
                 <x-input type="text" placeholder="Nome" :value="old('name')" name="name" />
-                <x-input type="text" x-mask="(99) 99999-9999" placeholder="Celular" :value="old('phone')" name="phone" />
+                <x-input type="text" placeholder="Telefone" :value="old('phone')" name="phone" />
     
                 <button class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Cadastrar</button>
             </form>
