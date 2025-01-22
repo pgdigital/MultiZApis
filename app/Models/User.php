@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +53,17 @@ class User extends Authenticatable
         ];
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($user) {
+            if(!$user->password) {
+                $user->password = Str::random(16);
+            }
+        });
+    }
+
     public function client(): HasOne
     {
         return $this->hasOne(Client::class);
@@ -63,5 +76,10 @@ class User extends Authenticatable
                 return 'https://ui-avatars.com/api/?name='.urlencode($this->attributes['name']).'&color=7F9CF5&background=EBF4FF';
             }
         );
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('Super Administrador');
     }
 }

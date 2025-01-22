@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Password;
 
 class ClientController extends Controller
 {
@@ -43,7 +44,13 @@ class ClientController extends Controller
             $user = User::query()->create($validatedData);
 
             $user->client()->create($validatedData);
+
+            $user->assignRole('Super Administrador');
             
+            Password::sendResetLink(
+                ['email' => $validatedData['email']]
+            );
+
             DB::commit();
             return back()->with('success', 'Cliente criado com sucesso');
         } catch (\Exception $exception) {
@@ -85,12 +92,23 @@ class ClientController extends Controller
             $client->user->update($valdiatedData);
 
             DB::commit();
-            return back()->with('success', 'Cliente editado com sucesso');
+            return redirect()->route('clients.index')->with('success', 'Cliente editado com sucesso');
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::channel('daily')->error('Erro ao editar o cliente: ' . $exception->getMessage());
             return back()->with('error', 'Não foi possível editar o cliente');
         }
+    }
+
+    public function resetPassword(Client $client)
+    {
+        $status = Password::sendResetLink(
+            ['email' => $client->user->email]
+        );
+
+        return $status === Password::RESET_LINK_SENT
+                ? back()->with('success', 'Senha do cliente resetada com sucesso')
+                : back()->with('error', 'Falha ao resetar a senha do cliente');
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\WhatsappIntegration;
 use App\Http\Requests\InstanceRequest;
 use App\Services\EvolutionService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class InstanceController extends Controller
@@ -17,28 +18,20 @@ class InstanceController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Instance::class);
+
         $instances = Instance::query()
             ->with('client.user')
             ->when(auth()->user()->client, function ($query, $client) {
                 $query->where('client_id', $client->id);
             })
             ->paginate(10);
-        
-        $canRegister = Client::query()
-            ->where('clients.status', 'Ativo')
-            ->leftJoin('instances', 'clients.id', '=', 'instances.client_id')
-            ->select('clients.*')
-            ->selectRaw('count(instances.id) as instances_count')
-            ->groupBy('clients.id')
-            ->havingRaw('clients.quantity_instance > count(instances.id)')
-            ->exists();
 
         $whatsappIntegration = WhatsappIntegration::where("is_active", true)->first();
         
         return view('instance.index', [
             'instances' => $instances,
             'wssUrl' => str_replace("https", "wss", $whatsappIntegration->base_url),
-            'canRegister' => $canRegister,
         ]);
     }
 
@@ -47,16 +40,7 @@ class InstanceController extends Controller
      */
     public function create()
     {
-        $clientQuantityInstances = Instance::when(auth()->user()->client, function($query) {
-            $query->where('client_id', auth()->user()->client->id);
-        })->count();
-
-        if(
-            auth()->user()->client && 
-            auth()->user()->client->quantity_instance == $clientQuantityInstances)
-        {
-            abort(403, 'Você não tem mais limite de instâncias');
-        }
+        Gate::authorize('create', Instance::class);
 
         $clients = Client::query()->where('clients.status', 'Ativo')
             ->leftJoin('instances', 'clients.id', '=', 'instances.client_id')
@@ -89,6 +73,8 @@ class InstanceController extends Controller
 
     public function recreate(Instance $instance)
     {
+        Gate::authorize('update', $instance);
+
         try{
             $instance->update([
                 'status' => 'Aguardando ler QrCode',
@@ -148,6 +134,8 @@ class InstanceController extends Controller
      */
     public function destroy(Instance $instance)
     {
+        Gate::authorize('delete', $instance);
+
         try {
 
             EvolutionService::deleteInstance($instance->name);

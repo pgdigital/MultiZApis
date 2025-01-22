@@ -17,7 +17,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'install';
+    protected $signature = 'install {--docker}';
 
     /**
      * The console command description.
@@ -31,65 +31,71 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->copyEnvFile();
+        if(!$this->option('docker')) {
+            $this->copyEnvFile();
 
-        $appHost = text(label: 'Qual o domínio da sua aplicação ?', required: true);
+            $appHost = text(label: 'Qual o domínio da sua aplicação ?', required: true);
 
-        $this->setEnvVariable("APP_URL",  $appHost);
+            $this->setEnvVariable("APP_URL",  $appHost);
 
-        $dbHost = text(
-            label: "Qual o host do banco de dados ?",
-            default: "localhost"
-        );
+            $dbHost = text(
+                label: "Qual o host do banco de dados ?",
+                default: "localhost"
+            );
 
-        $this->setEnvVariable("DB_HOST",  $dbHost);
+            $this->setEnvVariable("DB_HOST",  $dbHost);
 
-        $dbPort = text(
-            label: "Qual a porta do banco de dados ?",
-            default: "3306"
-        );
+            $dbPort = text(
+                label: "Qual a porta do banco de dados ?",
+                default: "3306"
+            );
 
-        $this->setEnvVariable("DB_PORT",  $dbPort);
+            $this->setEnvVariable("DB_PORT",  $dbPort);
 
-        $dbUser = text(
-            label: "Qual o usuário do banco de dados ?",
-            default: "root"
-        );
+            $dbUser = text(
+                label: "Qual o usuário do banco de dados ?",
+                default: "root"
+            );
 
-        $this->setEnvVariable("DB_USERNAME",  $dbUser);
+            $this->setEnvVariable("DB_USERNAME",  $dbUser);
 
-        $dbPassword = password(
-            label: "Qual a senha do banco de dados ?",
-        );
+            $dbPassword = password(
+                label: "Qual a senha do banco de dados ?",
+            );
 
-        $this->setEnvVariable("DB_PASSWORD",  $dbPassword);
+            $this->setEnvVariable("DB_PASSWORD",  $dbPassword);
 
-        $dbDatabase = text(
-            label: "Qual o nome do banco de dados ?",
-            default: "panel_zap"
-        );
+            $dbDatabase = text(
+                label: "Qual o nome do banco de dados ?",
+                default: "panel_zap"
+            );
 
-        $this->setEnvVariable("DB_DATABASE",  $dbDatabase);
+            $this->setEnvVariable("DB_DATABASE",  $dbDatabase);
 
-        info('Banco de dados configurado com sucesso!');
-
-        Process::path(base_path())->run('php artisan migrate --force');
+            info('Banco de dados configurado com sucesso!');
+        }
 
         Config::set('database.default', 'mysql');
         DB::purge('mysql');
         DB::reconnect('mysql');
 
-        Process::path(base_path())->run('php artisan key:generate');
+        Process::path(base_path())->run('php artisan migrate --force');
+
+        if(!$this->option('docker')) {
+            Process::path(base_path())->run('php artisan key:generate');
+        }
 
         Process::path(base_path())->run('php artisan db:seed --class=WhatsappIntegrationSeeder --force');
 
-        $this->setEnvVariable("APP_ENV",  "production");
+        if(!$this->option('docker')) {
+            $this->setEnvVariable("APP_ENV",  "production");
 
-        $this->setEnvVariable("APP_DEBUG",  "false");
+            $this->setEnvVariable("APP_DEBUG",  "false");
 
-        $this->setEnvVariable("APP_TIMEZONE",  "America/Sao_Paulo");
+            $this->setEnvVariable("APP_TIMEZONE",  "America/Sao_Paulo");
 
-        $this->setEnvVariable("APP_LOCALE",  "pt_BR");
+            $this->setEnvVariable("APP_LOCALE",  "pt_BR");
+        }
 
     }
 
