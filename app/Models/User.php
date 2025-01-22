@@ -77,4 +77,9 @@ class User extends Authenticatable
             }
         );
     }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('Super Administrador');
+    }
 }

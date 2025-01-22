@@ -92,7 +92,7 @@ class ClientController extends Controller
             $client->user->update($valdiatedData);
 
             DB::commit();
-            return back()->with('success', 'Cliente editado com sucesso');
+            return redirect()->route('clients.index')->with('success', 'Cliente editado com sucesso');
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::channel('daily')->error('Erro ao editar o cliente: ' . $exception->getMessage());
