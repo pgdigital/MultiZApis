@@ -34,7 +34,9 @@ class MakeUserCommand extends Command
             ->password('Senha do seu usuário', required: true, name: 'password', validate: ['password' => 'min:8'])
             ->submit();
 
-        User::query()->create($response);
+        $user = User::query()->create($response);
+
+        $user->assignRole('Super Administrador');
 
         info('Seu usuário foi criado com sucesso!');
     }

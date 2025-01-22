@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\WhatsappServiceInterface;
 use App\Services\EvolutionService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
         if(app()->isProduction()) {
             URL::forceScheme('https');
         }
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Administrador') ? true : null;
+        });
     }
 }
