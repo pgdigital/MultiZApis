@@ -6,7 +6,9 @@
                 Clientes
             </h2>
 
-            <a href="{{route("clients.create")}}" class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Cadastrar</a>
+            @can('create', \App\Models\Client::class)
+              <a href="{{route("clients.create")}}" class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Cadastrar</a>
+            @endcan
         </div>
 
         <div class="card px-4 py-4 sm:px-5">
@@ -50,16 +52,21 @@
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->status}}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                         <div class="flex items-center gap-2">
-                          <a href="{{route('clients.edit', $client->id)}}"><i class="fas fa-edit"></i></a>
-                          <a href="{{route('clients.reset-password', $client->id)}}" onclick="event.preventDefault(); document.getElementById('form-reset-password-{{$client->id}}').submit()"><i class="fas fa-exchange-alt"></i></a>
-                          <form action="{{route('clients.reset-password', $client->id)}}" id="form-reset-password-{{$client->id}}" method="post">
-                            @csrf
-                          </form>
-                          <a href="{{route('clients.destroy', $client->id)}}" onclick="event.preventDefault(); confirmDelete('form-delete-{{$client->id}}', 'Você realmente deseja excluir este registro ?', 'Sim', 'Não')"><i class="fas fa-trash"></i></a>
-                          <form action="{{route('clients.destroy', $client->id)}}" id="form-delete-{{$client->id}}" method="post">
-                            @csrf
-                            @method('delete')
-                          </form>
+                          @can('update', $client)
+                            <a href="{{route('clients.edit', $client->id)}}"><i class="fas fa-edit"></i></a>
+                            <a href="{{route('clients.reset-password', $client->id)}}" title="Reset de senha" onclick="event.preventDefault(); document.getElementById('form-reset-password-{{$client->id}}').submit()"><i class="fas fa-exchange-alt"></i></a>
+                            <form action="{{route('clients.reset-password', $client->id)}}" id="form-reset-password-{{$client->id}}" method="post">
+                              @csrf
+                            </form>
+                          @endcan
+                          
+                          @can('delete', $client)
+                            <a href="{{route('clients.destroy', $client->id)}}" onclick="event.preventDefault(); confirmDelete('form-delete-{{$client->id}}', 'Você realmente deseja excluir este registro ?', 'Sim', 'Não')"><i class="fas fa-trash"></i></a>
+                            <form action="{{route('clients.destroy', $client->id)}}" id="form-delete-{{$client->id}}" method="post">
+                              @csrf
+                              @method('delete')
+                            </form>
+                          @endcan
                         </div>
                       </td>
                     </tr>

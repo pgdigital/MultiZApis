@@ -6,9 +6,9 @@
                 Instâncias
             </h2>
 
-            @if($canRegister && auth()->user()->client || !auth()->user()->client)
+            @can('create', \App\Models\Instance::class)
               <a href="{{route("instances.create")}}" class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Cadastrar</a>
-            @endif
+            @endcan
         </div>
 
         <div class="card px-4 py-4 sm:px-5">
@@ -21,7 +21,7 @@
                   >
                     Nome
                   </th>
-                  @if(!auth()->user()->client)
+                  @if(auth()->user()->isSuperAdmin())
                     <th
                       class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
                     >
@@ -54,7 +54,7 @@
                 @foreach ($instances as $instance)
                   <tr class="border border-transparent border-b-slate-200 dark:border-b-navy-500">
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$instance->name}}</td>
-                    @if (!auth()->user()->client)
+                    @if (auth()->user()->isSuperAdmin())
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$instance->client->user->name}}</td>
                     @endif
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$instance->phone}}</td>
@@ -103,15 +103,19 @@
                           </template>
                         </div>
                       @endif
-                      <a href="{{route('instances.recreate', $instance->id)}}" onclick="event.preventDefault(); confirmationMessage('warning', 'Você tem certeza que deseja recriar a instância ?', 'Sim', 'Não', 'form-recreate-instance-{{$instance->id}}')" title="Recriar instância"><i class="fa-solid fa-rotate-right"></i></a>
-                      <form action="{{route('instances.recreate', $instance->id)}}" method="post" id="form-recreate-instance-{{$instance->id}}">
-                        @csrf
-                      </form>
-                      <a href="{{route('instances.destroy', $instance->id)}}" onclick="event.preventDefault(); confirmDelete('form-delete-{{$instance->id}}', 'Você realmente deseja excluir este registro ?', 'Sim', 'Não')"><i class="fas fa-trash"></i></a>
+                      @can('update', $instance)
+                        <a href="{{route('instances.recreate', $instance->id)}}" onclick="event.preventDefault(); confirmationMessage('warning', 'Você tem certeza que deseja recriar a instância ?', 'Sim', 'Não', 'form-recreate-instance-{{$instance->id}}')" title="Recriar instância"><i class="fa-solid fa-rotate-right"></i></a>
+                        <form action="{{route('instances.recreate', $instance->id)}}" method="post" id="form-recreate-instance-{{$instance->id}}">
+                          @csrf
+                        </form>
+                      @endcan
+                      @can('delete', $instance)
+                        <a href="{{route('instances.destroy', $instance->id)}}" onclick="event.preventDefault(); confirmDelete('form-delete-{{$instance->id}}', 'Você realmente deseja excluir este registro ?', 'Sim', 'Não')"><i class="fas fa-trash"></i></a>
                         <form action="{{route('instances.destroy', $instance->id)}}" id="form-delete-{{$instance->id}}" method="post">
                           @csrf
                           @method('delete')
                         </form>
+                      @endcan
                     </td>
                   </tr>
                 @endforeach
