@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InstanceController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\DashboadController;
+use App\Http\Controllers\PlanController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboadController::class)->name('dashboard');
@@ -44,7 +46,32 @@ Route::middleware('auth')->group(function () {
         ]);
 
     Route::post('instancias/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
+    Route::resource('campanhas', CampaignController::class)
+        ->parameters([
+            'campanhas' => 'campaign'
+        ])
+        ->names([
+            'index' => 'campaigns.index',
+            'create' => 'campaigns.create',
+            'store' => 'campaigns.store',
+            'show' => 'campaigns.show',
+            'edit' => 'campaigns.edit',
+            'update' => 'campaigns.update',
+            'destroy' => 'campaigns.destroy'
+        ]);
     
+    Route::resource('planos', PlanController::class)
+        ->parameters([
+            'planos' => 'plan'
+        ])->names([
+            'index' => 'plans.index',
+            'create' => 'plans.create',
+            'store' => 'plans.store',
+            'show' => 'plans.show',
+            'edit' => 'plans.edit',
+            'update' => 'plans.update',
+            'destroy' => 'plans.destroy'
+        ]);  
     Route::get('configuracao/evolution', [ConfigurationController::class, 'index'])->name('configuration.evolution');
     Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'update'])->name('configuration.evolution.update');
 });

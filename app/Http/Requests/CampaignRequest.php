@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ClientRequest extends FormRequest
+class CampaignRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,10 +15,10 @@ class ClientRequest extends FormRequest
         return true;
     }
 
-    public function prepareForValidation()
+    protected function prepareForValidation()
     {
         $this->merge([
-            'status' => "Ativo"
+            'status' => 'Programado'
         ]);
     }
 
@@ -30,15 +30,16 @@ class ClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'plan_id' => 'required|exists:plans,id',
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email:dns,rfc',
-                'max:255',
-                Rule::unique('users')->ignore($this->client?->user_id)
+            'client_id' => [
+                Rule::requiredIf(fn() => !auth()->user()->client),
+                'nullable',
+                'exists:clients,id'
             ],
-            'phone' => 'required|string|max:255',
+            'name' => 'required|string',
+            'type' => 'required|in:Em massa',
+            'description' => 'sometimes',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'status' => 'required'
         ];
     }
