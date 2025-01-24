@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\User;
 use App\Http\Requests\ClientRequest;
+use App\Models\Plan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
@@ -29,7 +30,10 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('client.create');
+        $plans = Plan::query()->where('is_active', true)->get();
+        return view('client.create', [
+            'plans' => $plans
+        ]);
     }
 
     /**Request
@@ -38,7 +42,6 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         $validatedData = $request->validated();
-
         DB::beginTransaction();
         try {
             $user = User::query()->create($validatedData);
@@ -73,8 +76,11 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
+        $plans = Plan::query()->where('is_active', true)->get();
+
         return view('client.edit', [
-            'client' => $client
+            'client' => $client,
+            'plans' => $plans
         ]);
     }
 
