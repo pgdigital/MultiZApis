@@ -10,14 +10,19 @@ class Client extends Model
 {
     protected $fillable = [
         "user_id",
+        'plan_id',
         "phone",
-        "quantity_instance",
         "status",
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class);
     }
 
     public function instances(): HasMany

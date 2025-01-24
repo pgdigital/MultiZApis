@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InstanceController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\DashboadController;
+use App\Http\Controllers\PlanController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboadController::class)->name('dashboard');
@@ -59,6 +60,18 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'campaigns.destroy'
         ]);
     
+    Route::resource('planos', PlanController::class)
+        ->parameters([
+            'planos' => 'plan'
+        ])->names([
+            'index' => 'plans.index',
+            'create' => 'plans.create',
+            'store' => 'plans.store',
+            'show' => 'plans.show',
+            'edit' => 'plans.edit',
+            'update' => 'plans.update',
+            'destroy' => 'plans.destroy'
+        ]);  
     Route::get('configuracao/evolution', [ConfigurationController::class, 'index'])->name('configuration.evolution');
     Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'update'])->name('configuration.evolution.update');
 });

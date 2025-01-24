@@ -30,6 +30,7 @@ class ClientRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'plan_id' => 'required|exists:plans,id',
             'name' => 'required|string|max:255',
             'email' => [
                 'required',
@@ -38,7 +39,6 @@ class ClientRequest extends FormRequest
                 Rule::unique('users')->ignore($this->client?->user_id)
             ],
             'phone' => 'required|string|max:255',
-            'quantity_instance' => 'required|integer',
             'status' => 'required'
         ];
     }

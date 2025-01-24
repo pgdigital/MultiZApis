@@ -45,7 +45,17 @@
                         <i class="fa-solid fa-mobile-screen text-lg text-center size-7"></i>
                     </div>
                 </a>
+            @endcan
 
+            @can('viewAny', \App\Models\Plan::class)
+                <a href="{{route('plans.index')}}"
+                    class="flex size-11 items-center justify-center rounded-lg outline-none transition-colors duration-200 {{ request()->routeIs('instances.*') ? 'text-primary hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-navy-600 bg-primary/10 dark:text-accent-light dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90' : 'hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25' }}"
+                    x-tooltip.placement.right="'Planos'">
+                    <div class="h-full w-full flex justify-center items-center mt-3">
+                        <i class="fa-solid fa-list-alt text-lg text-center size-7"></i>
+                    </div>
+                </a>
+            @endcan
             {{-- <a href="{{route('campaigns.index')}}"
                 class="flex size-11 items-center justify-center rounded-lg outline-none transition-colors duration-200 {{ request()->routeIs('instances.*') ? 'text-primary hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-navy-600 bg-primary/10 dark:text-accent-light dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90' : 'hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25' }}"
                 x-tooltip.placement.right="'Campanhas'">
@@ -53,7 +63,7 @@
                     <i class="fa-solid fa-newspaper text-lg text-center size-7"></i>
                 </div>
             </a> --}}
-            @endcan
+            
 
             @can('configuration_apis')
                 <a href="{{route('configuration.evolution')}}"
