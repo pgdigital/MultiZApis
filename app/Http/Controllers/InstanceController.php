@@ -42,10 +42,11 @@ class InstanceController extends Controller
     {
         Gate::authorize('create', Instance::class);
 
-        $clients = Client::query()->where('clients.status', 'Ativo')
+        $clients = Client::query()
+            ->select('clients.*', 'plans.quantity_instance')    
             ->leftJoin('instances', 'clients.id', '=', 'instances.client_id')
             ->join('plans', 'clients.plan_id', '=', 'plans.id')
-            ->select('clients.*')
+            ->where('clients.status', 'Ativo')
             ->selectRaw('count(instances.id) as instances_count')
             ->groupBy('clients.id', 'plans.id')
             ->havingRaw('plans.quantity_instance > count(instances.id)')
