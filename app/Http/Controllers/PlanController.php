@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PlanRequest;
 use App\Models\Plan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PlanController extends Controller
 {
@@ -13,6 +14,8 @@ class PlanController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Plan::class);
+
         $plans = Plan::query()->paginate(10);
 
         return view('plan.index', [
@@ -25,6 +28,8 @@ class PlanController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Plan::class);
+
         return view('plan.create');
     }
 
@@ -33,6 +38,8 @@ class PlanController extends Controller
      */
     public function store(PlanRequest $request)
     {
+        Gate::authorize('create', Plan::class);
+
         $validationData = $request->validated();
 
         try {
@@ -59,6 +66,8 @@ class PlanController extends Controller
      */
     public function edit(Plan $plan)
     {
+        Gate::authorize('update', $plan);
+
         return view('plan.edit', [
             'plan' => $plan
         ]);
@@ -69,6 +78,8 @@ class PlanController extends Controller
      */
     public function update(PlanRequest $request, Plan $plan)
     {
+        Gate::authorize('update', $plan);
+
         $validationData = $request->validated();
 
         try {
@@ -87,6 +98,8 @@ class PlanController extends Controller
      */
     public function destroy(Plan $plan)
     {
+        Gate::authorize('delete', $plan);
+        
         try {
             $plan->delete();
 

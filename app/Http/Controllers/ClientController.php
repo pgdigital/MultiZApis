@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Requests\ClientRequest;
 use App\Models\Plan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 
@@ -18,6 +19,8 @@ class ClientController extends Controller
      */
     public function index()
     {
+        Gate::authorize('create', Client::class);
+
         $clients = Client::query()->paginate(10);
 
         return view('client.index', [
@@ -30,6 +33,8 @@ class ClientController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Client::class);
+
         $plans = Plan::query()->where('is_active', true)->get();
         return view('client.create', [
             'plans' => $plans
@@ -48,7 +53,7 @@ class ClientController extends Controller
 
             $user->client()->create($validatedData);
 
-            $user->assignRole('Super Administrador');
+            $user->assignRole('Cliente');
             
             Password::sendResetLink(
                 ['email' => $validatedData['email']]
@@ -76,6 +81,8 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
+        Gate::authorize('update', $client);
+
         $plans = Plan::query()->where('is_active', true)->get();
 
         return view('client.edit', [
@@ -89,6 +96,8 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, Client $client)
     {
+        Gate::authorize('update', $client);
+
         $valdiatedData = $request->validated();
 
         DB::beginTransaction();
@@ -108,6 +117,8 @@ class ClientController extends Controller
 
     public function resetPassword(Client $client)
     {
+        Gate::authorize('update', $client);
+        
         $status = Password::sendResetLink(
             ['email' => $client->user->email]
         );
@@ -122,6 +133,8 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
+        Gate::authorize('delete', $client);
+
         DB::beginTransaction();
         try {
             $user = $client->user;
