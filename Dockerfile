@@ -33,6 +33,7 @@ RUN docker-php-ext-install -j$(nproc) \
     bcmath \
     opcache \
     mbstring \
+    intl \
     exif \
     pcntl 
 
