@@ -53,6 +53,22 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'configuration_apis',
                 'label' => 'Configuração de APIs'
+            ],
+            [
+                'name' => 'view_plans',
+                'label' => 'Ver planos'
+            ],
+            [
+                'name' => 'create_plans',
+                'label' => 'Cadastrar planos'
+            ],
+            [
+                'name' => 'update_plans',
+                'label' => 'Editar planos'
+            ],
+            [
+                'name' => 'delete_plans',
+                'label' => 'Excluir planos'
             ]
         ];
 
