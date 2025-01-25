@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Models\Client;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class ClientRequest extends FormRequest
@@ -14,7 +13,7 @@ class ClientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::authorize('create', Client::class);
+        return auth()->user()->can('create', Client::class);
     }
 
     public function prepareForValidation()

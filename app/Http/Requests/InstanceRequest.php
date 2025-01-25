@@ -5,16 +5,15 @@ namespace App\Http\Requests;
 use App\Models\Instance;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidatePhoneWhatsappCreated;
-use Illuminate\Support\Facades\Gate;
 
 class InstanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return Gate::authorize('viewAny', Instance::class);;
+        return auth()->user()->can('viewAny', Instance::class);;
     }
 
     public function prepareForValidation()
