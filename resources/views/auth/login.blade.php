@@ -27,6 +27,11 @@
                     </p>
                 </div>
             </div>
+            @if(session('status'))
+                <div class="mt-4 p-3 bg-green-100 text-green-700 rounded-lg">
+                    {{ session('status') }}
+                </div>
+            @endif
             <form class="mt-16" action="{{ route('login') }}" method="post">
                 @method('POST') @csrf
                 <div>
