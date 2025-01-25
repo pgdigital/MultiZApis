@@ -33,8 +33,7 @@ class InstancePolicy
             $query->where('client_id', $client->id);
         })->count();
 
-        $isLimitReached = !($user->client && $user->client->quantity_instance == $clientQuantityInstances);
-
+        $isLimitReached = !($user->client && $user->client->plan->quantity_instance == $clientQuantityInstances);
         return $isLimitReached && $user->can('create_instances');
     }
 
