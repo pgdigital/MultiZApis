@@ -19,7 +19,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        Gate::authorize('create', Client::class);
+        Gate::authorize('viewAny', Client::class);
 
         $clients = Client::query()->paginate(10);
 
