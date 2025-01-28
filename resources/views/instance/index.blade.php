@@ -3,7 +3,7 @@
     <main class="main-content w-full px-[var(--margin-x)] pb-8">
         <div class="flex items-center justify-between space-x-4 py-5 lg:py-6">
             <h2 class="text-xl font-medium text-slate-800 dark:text-navy-50 lg:text-2xl">
-                Instâncias
+                Números
             </h2>
 
             @can('create', \App\Models\Instance::class)
@@ -19,7 +19,7 @@
                   <th
                     class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
                   >
-                    Nome
+                    Identificação
                   </th>
                   @if(auth()->user()->isSuperAdmin())
                     <th

@@ -34,11 +34,6 @@
                     <th
                       class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
                     >
-                      Quantidade de instâncias
-                    </th>
-                    <th
-                      class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
-                    >
                       Status
                     </th>
                     <th
@@ -54,7 +49,6 @@
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->plan->name}}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->user->name}}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->user->email}}</td>
-                      <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->quantity_instance}}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$client->status}}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                         <div class="flex items-center gap-2">

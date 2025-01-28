@@ -12,7 +12,7 @@
             <form x-data action="{{route('plans.store')}}" method="post">
                 @csrf
                 <x-input type="text" placeholder="Nome" :value="old('name')" name="name" />
-                <x-input type="number" placeholder="Quantidade de instâncias" :value="old('quantity_instance')" name="quantity_instance" />
+                <x-input type="number" placeholder="Quantidade de números" :value="old('quantity_instance')" name="quantity_instance" />
                 <x-input type="number" placeholder="Quantidade de mensagens" :value="old('quantity_messages')" name="quantity_messages" />
                 <small>Usando quantidade 0 as mensagens serão ilimitadas</small>
                 <x-input type="text" placeholder="Preço" x-mask:dynamic="$money($input, ',','.', 2)" :value="old('price')" name="price" />
