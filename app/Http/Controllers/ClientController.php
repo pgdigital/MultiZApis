@@ -124,7 +124,6 @@ class ClientController extends Controller
             ['email' => $client->user->email]
         );
 
-        dd($status, Password::RESET_LINK_SENT);
         return $status === Password::RESET_LINK_SENT
                 ? back()->with('success', 'Senha do cliente resetada com sucesso')
                 : back()->with('error', 'Falha ao resetar a senha do cliente');
