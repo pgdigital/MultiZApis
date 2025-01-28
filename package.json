@@ -34,6 +34,7 @@
         "highlight.js": "^11.10.0",
         "quill": "^2.0.2",
         "simplebar": "^6.2.7",
+        "simplemde": "^1.11.2",
         "sortablejs": "^1.15.3",
         "sweetalert2": "^11.15.10",
         "swiper": "^11.1.14",

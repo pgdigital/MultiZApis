@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\User;
 use App\Http\Requests\ClientRequest;
 use App\Models\Plan;
+use App\Notifications\SendResetPasswordNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -118,11 +119,12 @@ class ClientController extends Controller
     public function resetPassword(Client $client)
     {
         Gate::authorize('update', $client);
-        
+
         $status = Password::sendResetLink(
             ['email' => $client->user->email]
         );
 
+        dd($status, Password::RESET_LINK_SENT);
         return $status === Password::RESET_LINK_SENT
                 ? back()->with('success', 'Senha do cliente resetada com sucesso')
                 : back()->with('error', 'Falha ao resetar a senha do cliente');

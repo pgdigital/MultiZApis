@@ -7,12 +7,13 @@ use App\Models\Instance;
 use App\Models\Client;
 use App\Models\WhatsappIntegration;
 use App\Http\Requests\InstanceRequest;
-use App\Services\EvolutionService;
+use App\Interfaces\WhatsappServiceInterface;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class InstanceController extends Controller
 {
+    public function __construct(protected WhatsappServiceInterface $whatsappService){}
     /**
      * Display a listing of the resource.
      */
@@ -82,23 +83,21 @@ class InstanceController extends Controller
                 'status' => 'Aguardando ler QrCode',
             ]);
             
-            EvolutionService::deleteInstance($instance->name);
+            $this->whatsappService::deleteInstance($instance->name);
     
-            EvolutionService::createInstance([
+            $this->whatsappService::createInstance([
                 "instanceName" => $instance->name,
                 "token" => $instance->token,
                 "integration" => "WHATSAPP-BAILEYS"
             ]);
     
-            EvolutionService::setWebsocketInstance($instance->name, [
+            $this->whatsappService::setWebsocketInstance($instance->name, [
                 "enabled" => true,
                 "events" => [
                     "QRCODE_UPDATED",
                     "CONNECTION_UPDATE"
                 ]
             ]);
-    
-            EvolutionService::instanceConnect($instance->name);
     
             return back()->with('success', 'Instância recriada com sucesso!');
         } catch (\Exception $e) {
@@ -140,7 +139,7 @@ class InstanceController extends Controller
 
         try {
 
-            EvolutionService::deleteInstance($instance->name);
+            $this->whatsappService::deleteInstance($instance->name);
 
             $instance->delete();
             return back()->with('success', 'Instância excluída com sucesso');
@@ -153,6 +152,6 @@ class InstanceController extends Controller
 
     public function connect(Instance $instance)
     {
-        return EvolutionService::instanceConnect($instance->name);
+        return $this->whatsappService::instanceConnect($instance->name);
     }
 }

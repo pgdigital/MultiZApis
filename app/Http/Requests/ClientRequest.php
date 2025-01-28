@@ -18,9 +18,11 @@ class ClientRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        $this->merge([
-            'status' => "Ativo"
-        ]);
+        if($this->isMethod('POST')) {
+            $this->merge([
+                'status' => "Ativo"
+            ]);
+        }
     }
 
     /**

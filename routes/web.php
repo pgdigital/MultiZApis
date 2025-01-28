@@ -31,9 +31,9 @@ Route::middleware('auth')->group(function () {
         ]);
     Route::post('clientes/reset-password/{client}', [ClientController::class, 'resetPassword'])->name('clients.reset-password');
 
-    Route::resource('instancias', InstanceController::class)
+    Route::resource('numeros', InstanceController::class)
         ->parameters([
-            'instancias' => 'instance'
+            'numeros' => 'instance'
         ])
         ->names([
             'index' => 'instances.index',
@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'instances.destroy'
         ]);
 
-    Route::post('instancias/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
+    Route::post('numeros/recreate/{instance}', [InstanceController::class, 'recreate'])->name('instances.recreate');
     Route::resource('campanhas', CampaignController::class)
         ->parameters([
             'campanhas' => 'campaign'
@@ -72,8 +72,11 @@ Route::middleware('auth')->group(function () {
             'update' => 'plans.update',
             'destroy' => 'plans.destroy'
         ]);  
-    Route::get('configuracao/evolution', [ConfigurationController::class, 'index'])->name('configuration.evolution');
-    Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'update'])->name('configuration.evolution.update');
+    Route::get('configuracao', [ConfigurationController::class, 'index'])->name('configuration.index');    
+    Route::get('configuracao/email/resetar-senha', [ConfigurationController::class, 'emailResetPassowrd'])->name('configuration.email.reset-password');
+    Route::put('configuracao/email/resetar-senha/{template}', [ConfigurationController::class, 'updateEmailResetPassword'])->name('configuration.email.reset-password.update');
+    Route::get('configuracao/evolution', [ConfigurationController::class, 'evolution'])->name('configuration.evolution');
+    Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'updateEvolution'])->name('configuration.evolution.update');
 });
 
 require __DIR__.'/auth.php';

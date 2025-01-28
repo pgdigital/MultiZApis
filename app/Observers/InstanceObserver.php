@@ -2,20 +2,22 @@
 
 namespace App\Observers;
 
+use App\Interfaces\WhatsappServiceInterface;
 use App\Models\Instance;
-use App\Services\EvolutionService;
 
 class InstanceObserver
 {
     public function created(Instance $instance)
     {
-        EvolutionService::createInstance([
+        $whatsappService = app()->make(WhatsappServiceInterface::class);
+
+        $whatsappService::createInstance([
             "instanceName" => $instance->name,
             "token" => $instance->token,
             "integration" => "WHATSAPP-BAILEYS"
         ]);
 
-        EvolutionService::setWebsocketInstance($instance->name, [
+        $whatsappService::setWebsocketInstance($instance->name, [
             "enabled" => true,
             "events" => [
                 "QRCODE_UPDATED",
