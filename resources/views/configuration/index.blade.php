@@ -47,14 +47,9 @@
                 x-transition:enter-end="opacity-100 [transform:translate3d(0,0,0)]"
               >
                 <div>
-                    <form x-data action="{{route('configuration.evolution.update', $whatsappIntegration->id)}}" method="post">
-                        @method('PUT')  
-                        @csrf
-                        <x-input type="text" placeholder="URL da API" :value="old('base_url', $whatsappIntegration->base_url)" name="base_url" />
-                        <x-input type="text" placeholder="Token Global" :value="old('token', $whatsappIntegration->token)" name="token" />
-            
-                        <button class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Salvar</button>
-                    </form>
+                  <p>
+                    Em desenvolvimento...
+                  </p>
                 </div>
               </div>
             </div>

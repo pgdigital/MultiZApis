@@ -3,7 +3,7 @@
     <main class="main-content w-full px-[var(--margin-x)] pb-8">
         <div class="flex items-center justify-between space-x-4 py-5 lg:py-6">
             <h2 class="text-xl font-medium text-slate-800 dark:text-navy-50 lg:text-2xl">
-                Instâncias
+                Números
             </h2>
 
             <a href="{{route('instances.index')}}" class="btn bg-black font-medium text-white hover:bg-black-focus focus:bg-black-focus active:bg-black-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Voltar</a>
@@ -19,7 +19,7 @@
                         @endforeach
                     </x-select>
                 @endif
-                <x-input type="text" placeholder="Nome" :value="old('name')" name="name" />
+                <x-input type="text" placeholder="Identificação" :value="old('name')" name="name" />
                 <x-input type="text" placeholder="Telefone" :value="old('phone')" name="phone" />
     
                 <button class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Cadastrar</button>
