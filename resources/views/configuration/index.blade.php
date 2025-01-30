@@ -47,9 +47,19 @@
                 x-transition:enter-end="opacity-100 [transform:translate3d(0,0,0)]"
               >
                 <div>
-                  <p>
-                    Em desenvolvimento...
-                  </p>
+                  <form x-data action="{{route('configuration.update', $configuration->id)}}" enctype="multipart/form-data" method="post">
+                    @method('PUT')  
+                    @csrf
+                    <x-input type="text" placeholder="Nome da plataforma" :value="old('name', $configuration->name)" name="name" />
+        
+                    <img src="{{$logo}}" class="w-24 h-24" alt="">
+                    <x-input type="file" label="Logo da plataforma"  :value="old('logo_path')" name="logo_path" />
+                    <img src="{{$favicon}}" class="w-8 h-8" alt="">
+                    <x-input type="file" label="Favicon da plataforma" :value="old('favicon_path')" name="favicon_path" />
+                    <img src="{{$home_bg}}" class="w-24 h-24" alt="">
+                    <x-input type="file" label="Imagem banner na tela de login" :value="old('home_image_path')" name="home_image_path" />
+                    <button class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">Salvar</button>
+                </form>
                 </div>
               </div>
             </div>

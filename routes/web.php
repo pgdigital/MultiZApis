@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'plans.destroy'
         ]);  
     Route::get('configuracao', [ConfigurationController::class, 'index'])->name('configuration.index');    
+    Route::put('configuracao/{configuration}', [ConfigurationController::class, 'update'])->name('configuration.update');
     Route::get('configuracao/email/resetar-senha', [ConfigurationController::class, 'emailResetPassowrd'])->name('configuration.email.reset-password');
     Route::put('configuracao/email/resetar-senha/{template}', [ConfigurationController::class, 'updateEmailResetPassword'])->name('configuration.email.reset-password.update');
     Route::get('configuracao/evolution', [ConfigurationController::class, 'evolution'])->name('configuration.evolution');

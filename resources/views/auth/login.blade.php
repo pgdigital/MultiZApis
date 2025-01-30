@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="fixed top-0 hidden p-6 lg:block lg:px-12">
         <a href="#" class="flex items-center space-x-2">
-            <img class="size-12" src="{{ config('app.logo') }}" alt="logo" />
+            <img class="size-12" src="{{$logo}}" alt="logo" />
             <p class="text-xl font-semibold uppercase text-slate-700 dark:text-navy-100">
                 {{ config('app.name') }}
             </p>
@@ -10,7 +10,7 @@
     <div class="hidden w-full place-items-center lg:grid">
         <div class="w-full max-w-lg p-6">
             <img class="w-full"
-                src="{{ asset('images/illustrations/dashboard-check.svg') }}" alt="image" />
+                src="{{ $home_bg }}" alt="image" />
             
         </div>
     </div>

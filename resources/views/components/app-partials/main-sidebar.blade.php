@@ -5,7 +5,7 @@
         <div class="flex pt-4">
             <a href="/">
                 <img class="size-11 transition-transform duration-500 ease-in-out hover:rotate-[360deg]"
-                    src="{{ config('app.logo') }}" alt="logo" />
+                    src="{{$logo}}" alt="logo" />
             </a>
         </div>
 
