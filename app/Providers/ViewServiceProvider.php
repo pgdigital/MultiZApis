@@ -56,7 +56,7 @@ class ViewServiceProvider extends ServiceProvider
                 }
             }
         } catch (\Exception $e) {
-            dd($e);
+            
         }
     }
 }
