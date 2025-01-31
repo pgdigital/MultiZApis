@@ -15,7 +15,7 @@ class ConfigurationSeeder extends Seeder
     {
         Configuration::query()->create([
             'name' => 'PanelZap',
-            'logo_path' => 'images/logo.svg',
+            'logo_path' => 'images/logo.jpeg',
             'favicon_path' => 'favicon.ico',
             'home_image_path' => 'images/illustrations/dashboard-check.svg'
         ]);
