@@ -45,6 +45,8 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 RUN composer install --no-dev --optimize-autoloader
 
+RUN php artisan storage:link
+
 RUN npm install && npm run build
 
 EXPOSE 8000
