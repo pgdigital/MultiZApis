@@ -35,11 +35,14 @@ class ViewServiceProvider extends ServiceProvider
                 if($configuration) 
                 {
                     View::share('title', $configuration->name);
-                    if(config('filesystems.default') == 's3') {
+                    if(
+                        Storage::exists($configuration->logo_path) &&
+                        Storage::exists($configuration->favicon_path) &&
+                        Storage::exists($configuration->home_image_path)
+                    ) {
                         View::share('logo', Storage::link($configuration->logo_path));
                         View::share('favicon', Storage::link($configuration->favicon_path));
                         View::share('home_bg', Storage::link($configuration->home_image_path));
-                        
                     } else {
                         View::share('logo', asset($configuration->logo_path));
                         View::share('favicon', asset($configuration->favicon_path));
