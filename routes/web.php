@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InstanceController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\DashboadController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\PlanController;
 
 Route::middleware('auth')->group(function () {
@@ -79,5 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::get('configuracao/evolution', [ConfigurationController::class, 'evolution'])->name('configuration.evolution');
     Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'updateEvolution'])->name('configuration.evolution.update');
 });
+
+Route::get('file/{path}', FileController::class)->name('file')->where('path', '.*');
 
 require __DIR__.'/auth.php';
