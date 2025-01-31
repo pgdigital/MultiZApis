@@ -29,7 +29,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer('*', 'App\Http\View\Composers\SidebarComposer');
         try {
-            if(Schema::connection_status()) {
+            if(Schema::hasTable('configurations')) {
                 $configuration = Configuration::first();
     
                 if($configuration) 
