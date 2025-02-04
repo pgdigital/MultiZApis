@@ -85,6 +85,8 @@ class InstallCommand extends Command
             Process::path(base_path())->run('php artisan key:generate');
         }
 
+        Process::path(base_path())->run('php artisan db:seed --class=ConfigurationSeeder --force');
+        Process::path(base_path())->run('php artisan db:seed --class=EmailTemplateSeeder --force');
         Process::path(base_path())->run('php artisan db:seed --class=PermissionSeeder --force');
         Process::path(base_path())->run('php artisan db:seed --class=RoleSeeder --force');
         Process::path(base_path())->run('php artisan db:seed --class=WhatsappIntegrationSeeder --force');
