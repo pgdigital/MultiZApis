@@ -15,10 +15,6 @@ class ValidatePhoneWhatsappCreated implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!preg_match('/^55/', $value)) {
-            $value = '55' . $value;
-        }
-        
         $whatsappService = app()->make(WhatsappServiceInterface::class);
 
         $exists = $whatsappService::checkWhatsappNumber(config('app.instance_primary'), preg_replace('/[^0-9]/', '', $value));
