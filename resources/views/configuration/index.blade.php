@@ -20,15 +20,6 @@
                         >
                         Principal
                     </a>
-                    <a href="{{route('configuration.evolution')}}" @class([ 'btn shrink-0 px-3 py-1.5 font-medium'
-                        , 'bg-white shadow dark:bg-navy-500 dark:text-navy-100'=>
-                        request()->routeIs('configuration.evolution'),
-                        'hover:text-slate-800 focus:text-slate-800 dark:hover:text-navy-100 dark:focus:text-navy-100' =>
-                        !request()->routeIs('configuration.evolution'),
-                        ])
-                        >
-                        Evolution
-                    </a>
                     <a href="{{route('configuration.email.reset-password')}}" @class([ 'btn shrink-0 px-3 py-1.5 font-medium'
                         , 'bg-white shadow dark:bg-navy-500 dark:text-navy-100'=>
                         request()->routeIs('configuration.email.reset-password'),
