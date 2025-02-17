@@ -28,13 +28,13 @@ jobs:
         run: echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       # Construir e enviar a imagem mais recente para ambas as plataformas (amd64 e arm64)
-      - name: Build the Docker Image Latest (amd64 & arm64)
+      - name: Build the Docker Image Latest
         run: |
           docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/${{ env.lower_name }}:latest . --push
+          docker buildx build -t ghcr.io/${{ env.lower_name }}:latest . --push
 
       # Construir e enviar a imagem com a tag da versão para ambas as plataformas (amd64 e arm64)
-      - name: Build the Docker Image Version (amd64 & arm64)
+      - name: Build the Docker Image Version
         run: |
           docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/${{ env.lower_name }}:${{ github.ref_name }} . --push
+          docker buildx build -t ghcr.io/${{ env.lower_name }}:${{ github.ref_name }} . --push
