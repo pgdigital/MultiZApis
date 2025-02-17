@@ -1,0 +1,40 @@
+<?php
+
+namespace Modules\{{name}}\App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+
+class {{name}}ServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../Config/config.php', '{{lowername}}');
+        $this->registerRoutes();
+    }
+
+    public function boot()
+    {
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views', '{{lowername}}');
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->publishes([
+            __DIR__ . '/../Config/config.php' => config_path('{{lowername}}.php'),
+        ], 'config');
+    }
+
+    protected function registerRoutes()
+    {
+        $moduleName = $this->getModuleName();
+
+        Route::middleware('web')
+            ->prefix('integracoes')
+            ->as("integrations.{$moduleName}.")
+            ->group(fn() => require __DIR__ . '/../../routes/web.php');
+    }
+
+    private function getModuleName()
+    {
+        $namespaceParts = explode('\\', __NAMESPACE__);
+        return strtolower($namespaceParts[1]);
+    }
+}

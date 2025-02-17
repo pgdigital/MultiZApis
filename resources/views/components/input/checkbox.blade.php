@@ -1,5 +1,6 @@
 @props([
-    'label'
+    'label',
+    'checked' => false
 ])
 
 <label class="inline-flex items-center space-x-2">
@@ -9,6 +10,7 @@
             'border-slate-400/70' => !$errors->has($attributes->get('name')),
             'border-error' => $errors->has($attributes->get('name')),
       ])}}
+      @checked($checked)
       type="checkbox"
     />
     <p>{{$label}}</p>  

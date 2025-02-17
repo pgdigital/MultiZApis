@@ -1,0 +1,13 @@
+<?php
+
+namespace Modules\{{name}}\App\Http\Controllers;
+
+use Illuminate\Routing\Controller;
+
+class {{name}}Controller extends Controller
+{
+    public function index()
+    {
+        return view('{{lowername}}::index');
+    }
+}

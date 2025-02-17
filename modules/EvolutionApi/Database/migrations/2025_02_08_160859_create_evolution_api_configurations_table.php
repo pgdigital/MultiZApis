@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instances', function (Blueprint $table) {
+        Schema::create('evolution_api_configurations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('clients');
-            $table->morphs('providerable');
-            $table->string('name');
-            $table->string('phone');
-            $table->string('token');
-            $table->string('status');
+            $table->string('identification');
+            $table->string('api_url');
+            $table->string('global_token_api');
+            $table->integer('quantity_instances')->default(0);
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instances');
+        Schema::dropIfExists('evolution_api_configurations');
     }
 };

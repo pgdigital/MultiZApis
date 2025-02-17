@@ -8,6 +8,7 @@ use App\Http\Controllers\InstanceController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\DashboadController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\IntegrationController;
 use App\Http\Controllers\PlanController;
 
 Route::middleware('auth')->group(function () {
@@ -79,6 +80,22 @@ Route::middleware('auth')->group(function () {
     Route::put('configuracao/email/resetar-senha/{template}', [ConfigurationController::class, 'updateEmailResetPassword'])->name('configuration.email.reset-password.update');
     Route::get('configuracao/evolution', [ConfigurationController::class, 'evolution'])->name('configuration.evolution');
     Route::put('configuracao/evolution/{whatsappIntegration}', [ConfigurationController::class, 'updateEvolution'])->name('configuration.evolution.update');
+
+    Route::resource('integracoes', IntegrationController::class)
+        ->parameters([
+            'integracoes' => 'integration'
+        ])
+        ->names([
+            'index' => 'integrations.index',
+            'create' => 'integrations.create',
+            'store' => 'integrations.store',
+            'show' => 'integrations.show',
+            'edit' => 'integrations.edit',
+            'update' => 'integrations.update',
+            'destroy' => 'integrations.destroy'
+        ]);
+
+    Route::post('integracoes/toggle/{module}', [IntegrationController::class, 'toggleModule'])->name('integrations.toggle.modules');
 });
 
 Route::get('file/{path}', FileController::class)->name('file')->where('path', '.*');

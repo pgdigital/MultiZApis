@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instances', function (Blueprint $table) {
+        Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('clients');
-            $table->morphs('providerable');
-            $table->string('name');
-            $table->string('phone');
-            $table->string('token');
-            $table->string('status');
+            $table->string('name')->unique();
+            $table->boolean('enabled')->default(false);
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instances');
+        Schema::dropIfExists('modules');
     }
 };
