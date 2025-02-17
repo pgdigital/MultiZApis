@@ -47,6 +47,8 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN php artisan storage:link
 
+RUN php artisan scribe:generate
+
 RUN npm install && npm run build
 
 EXPOSE 8000

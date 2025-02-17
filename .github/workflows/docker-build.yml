@@ -26,7 +26,7 @@ jobs:
       # Fazer login no GitHub Container Registry
       - name: Login to GitHub Container Registry
         run: echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
+        
       # Configurar o QEMU para suportar múltiplas arquiteturas
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
