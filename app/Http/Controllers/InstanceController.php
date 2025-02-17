@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Instance;
 use App\Models\Client;
-use App\Models\WhatsappIntegration;
 use App\Http\Requests\InstanceRequest;
-use App\Interfaces\WhatsappServiceInterface;
+use App\Services\Internal\Whatsapp\WhatsappManagerService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class InstanceController extends Controller
 {
-    public function __construct(protected WhatsappServiceInterface $whatsappService){}
+    public function __construct(protected WhatsappManagerService $whatsappService){}
     /**
      * Display a listing of the resource.
      */
@@ -22,17 +21,14 @@ class InstanceController extends Controller
         Gate::authorize('viewAny', Instance::class);
 
         $instances = Instance::query()
-            ->with('client.user')
+            ->with('client.user', 'providerable')
             ->when(auth()->user()->client, function ($query, $client) {
                 $query->where('client_id', $client->id);
             })
             ->paginate(10);
-
-        $whatsappIntegration = WhatsappIntegration::where("is_active", true)->first();
         
         return view('instance.index', [
-            'instances' => $instances,
-            'wssUrl' => str_replace("https", "wss", $whatsappIntegration->base_url),
+            'instances' => $instances
         ]);
     }
 
@@ -83,15 +79,15 @@ class InstanceController extends Controller
                 'status' => 'Aguardando ler QrCode',
             ]);
             
-            $this->whatsappService::deleteInstance($instance->name);
+            $this->whatsappService->deleteInstance($instance->name);
     
-            $this->whatsappService::createInstance([
+            $this->whatsappService->createInstance([
                 "instanceName" => $instance->name,
                 "token" => $instance->token,
                 "integration" => "WHATSAPP-BAILEYS"
             ]);
     
-            $this->whatsappService::setWebsocketInstance($instance->name, [
+            $this->whatsappService->setWebsocketInstance($instance->name, [
                 "enabled" => true,
                 "events" => [
                     "QRCODE_UPDATED",
@@ -139,7 +135,7 @@ class InstanceController extends Controller
 
         try {
 
-            $this->whatsappService::deleteInstance($instance->name);
+            $this->whatsappService->deleteInstance($instance->name);
 
             $instance->delete();
             return back()->with('success', 'Instância excluída com sucesso');
@@ -152,6 +148,6 @@ class InstanceController extends Controller
 
     public function connect(Instance $instance)
     {
-        return $this->whatsappService::instanceConnect($instance->name);
+        return $this->whatsappService->instanceConnect($instance->name);
     }
 }

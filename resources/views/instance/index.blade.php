@@ -62,7 +62,7 @@
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$instance->status}}</td>
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5 flex gap-2">
                       @if($instance->status != 'Conectado')
-                        <div x-data="instances('{{$instance->id}}', '{{$instance->name}}')" x-init="$watch('showModal', () => socketini())">
+                        <div x-data="instances('{{str_replace('https', 'wss', $instance->providerable->api_url).'/'.$instance->name}}','{{$instance->id}}', '{{$instance->name}}')" x-init="$watch('showModal', () => socketini())">
                           <button
                             @click="showModal = true"
                             title="Conectar ao Whatsapp"
@@ -130,13 +130,13 @@
   <script src="{{asset('js/confirmation.js')}}"></script>
   <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('instances', (instanceId, instanceName) => ({
+        Alpine.data('instances', (wssUrl, instanceId, instanceName) => ({
           showModal: false,
           qrCode: null,
           async socketini() {
             let socket = null;
             if(this.showModal) {
-              socket = io(this.wssUrl, {
+              socket = io(wssUrl, {
                 transports: ['websocket']
               });
 
@@ -168,8 +168,7 @@
             } else {
               socket.disconnect();
             }
-          },
-          wssUrl: `{{$wssUrl}}/${instanceName}`
+          }
         }));
     });
   </script>

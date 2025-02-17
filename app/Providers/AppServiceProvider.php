@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\WhatsappServiceInterface;
 use App\Services\EvolutionService;
+use App\Services\Internal\Modules\ModuleManagerService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(WhatsappServiceInterface::class, EvolutionService::class);
+
+        $this->app->singleton('module', function() {
+            return new ModuleManagerService();
+        });
     }
 
     /**

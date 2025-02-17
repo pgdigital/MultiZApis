@@ -19,9 +19,5 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class
         ]);
-
-        $user = User::find(1);
-
-        $user->assignRole('Super Administrador');
     }
 }

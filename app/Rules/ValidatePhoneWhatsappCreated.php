@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Interfaces\WhatsappServiceInterface;
+use App\Services\Internal\Whatsapp\WhatsappManagerService;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -15,9 +15,9 @@ class ValidatePhoneWhatsappCreated implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $whatsappService = app()->make(WhatsappServiceInterface::class);
-
-        $exists = $whatsappService::checkWhatsappNumber(config('app.instance_primary'), preg_replace('/[^0-9]/', '', $value));
+        $whatsappService = app()->make(WhatsappManagerService::class);
+        
+        $exists = $whatsappService->checkWhatsappNumber(config('app.instance_primary'), preg_replace('/[^0-9]/', '', $value));
 
         if(!$exists) {
             $fail("O número de telefone não está registrado no WhatsApp");

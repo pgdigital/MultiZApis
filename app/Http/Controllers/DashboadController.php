@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\WhatsappServiceInterface;
 use App\Models\Client;
+use App\Services\Internal\Whatsapp\WhatsappManagerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class DashboadController extends Controller
 {
-    public function __construct(protected WhatsappServiceInterface $whatsappService){}
+    public function __construct(protected WhatsappManagerService $whatsappService){}
     /**
      * Handle the incoming request.
      */

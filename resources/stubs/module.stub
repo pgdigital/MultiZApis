@@ -1,0 +1,8 @@
+{
+    "name": "{{name}}",
+    "thumbnail": "/images/logo.jpeg",
+    "description": "{{description}}",
+    "author": "{{author}}",
+    "version": "1.0.0",
+    "whatsappProvider": false
+}

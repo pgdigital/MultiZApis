@@ -1,0 +1,8 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Modules\{{name}}\App\Http\Controllers\{{name}}Controller;
+
+Route::prefix('{{lowername}}')->middleware('web')->group(function () {
+    Route::get('/', [{{name}}Controller::class, 'index'])->name('{{lowername}}.index');
+});
