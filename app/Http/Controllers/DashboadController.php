@@ -24,7 +24,7 @@ class DashboadController extends Controller
 
             foreach ($clients as $client) {
                 foreach ($client->instances as $instance) {
-                    $chats->push(...$this->whatsappService::getChats($instance->name));
+                    $chats->push(...$this->whatsappService->getChats($instance->name));
                 }
             }
 
@@ -36,7 +36,7 @@ class DashboadController extends Controller
 
             foreach ($clients as $client) {
                 foreach ($client->instances as $instance) {
-                    $messages->push(...$this->whatsappService::getMessages($instance->name));
+                    $messages->push(...$this->whatsappService->getMessages($instance->name));
                 }
             }
             return $messages->sum(fn($message) => $message['total']);
