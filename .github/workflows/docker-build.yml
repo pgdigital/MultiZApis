@@ -11,32 +11,32 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
+      # Converter o nome do repositório para lowercase
+      - name: Convert to lowercase
+        id: convert
+        run: |
+          lower_name=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "lower_name=${lower_name}" >> $GITHUB_ENV
+
       # Fazer checkout do repositório
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Converter o nome do repositório para lowercase
-      - name: Convert repository name to lowercase
-        run: echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
-      # Login no GitHub Container Registry
+      # Fazer login no GitHub Container Registry
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+        run: echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      # Construir a imagem Docker
-      - name: Build Docker Image
-        run: |
-          docker build -t ghcr.io/${{ env.REPO_NAME }}:latest .
-          docker build -t ghcr.io/${{ env.REPO_NAME }}:${{ github.ref_name }} .
+      # Construir e enviar a imagem mais recente
+      - name: Build the Docker Image Latest
+        run: docker build -t ghcr.io/${{ env.lower_name }}:latest .
 
-      # Fazer push das imagens
-      - name: Push Docker Image
-        run: |
-          docker push ghcr.io/${{ env.REPO_NAME }}:latest
-          docker push ghcr.io/${{ env.REPO_NAME }}:${{ github.ref_name }}
+      - name: Push the Docker Image Latest
+        run: docker push ghcr.io/${{ env.lower_name }}:latest
+
+      # Construir e enviar a imagem com a tag da versão
+      - name: Build the Docker Image Version
+        run: docker build -t ghcr.io/${{ env.lower_name }}:${{ github.ref_name }} .
+
+      - name: Push the Docker Image Version
+        run: docker push ghcr.io/${{ env.lower_name }}:${{ github.ref_name }}
