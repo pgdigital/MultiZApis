@@ -32,7 +32,7 @@ jobs:
         run: |
           docker build -t ghcr.io/${{ env.lower_name }}:latest . --push
 
-      # Construir e enviar a imagem com a tag da versão para ambas as plataformas (amd64 e arm64)
-      - name: Build the Docker Image Version
+      # Construir e enviar as imagens (latest e version) para ambas as plataformas (amd64 e arm64)
+      - name: Build and Push Docker Images
         run: |
           docker build -t ghcr.io/${{ env.lower_name }}:${{ github.ref_name }} . --push
