@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use App\Observers\InstanceObserver;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 #[ObservedBy([InstanceObserver::class])]
@@ -37,5 +38,10 @@ class Instance extends Model
     public function providerable(): MorphTo
     {
         return $this->morphTo('providerable');
+    }
+
+    public function instanceMessages(): HasMany
+    {
+        return $this->hasMany(InstanceMessage::class);
     }
 }
