@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ConnectionController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\WebhookController;
 use App\Http\Controllers\InstanceController;
 use App\Http\Middleware\AuthenticationTokenInstanceMiddleware;
 
@@ -11,4 +12,5 @@ Route::get('instances/connect/{instance}', [InstanceController::class,'connect']
 
 Route::group(['prefix' => 'v1', 'as' => 'v1.', 'middleware' => AuthenticationTokenInstanceMiddleware::class], function() {
     Route::post('send/message', [MessageController::class, 'sendMessage'])->name('send-message');
+    Route::post('webhooks', [WebhookController::class, 'store'])->name('webhooks.store');
 });

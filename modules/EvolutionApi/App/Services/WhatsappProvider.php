@@ -173,4 +173,29 @@ class WhatsappProvider implements WhatsappServiceInterface {
 
         return json_decode($response->getBody()->getContents(), true);
     }
+
+    public static function setWebhook($instanceName, $data)
+    {
+        $response = (new self)->clientInstance->post("/webhook/set/{$instanceName}", [
+            'body' => json_encode([
+                'enabled' => true,
+                "url" => $data['url'],
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                "byEvents" => false,
+                "base64" => false,
+                "events" => [
+                    "MESSAGES_SET",
+                    "MESSAGES_UPSERT",
+                    "MESSAGES_UPDATE",
+                    "MESSAGES_DELETE",
+                    "PRESENCE_UPDATE"
+                ]
+            ])
+        ]);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
 }

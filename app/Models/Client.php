@@ -34,4 +34,9 @@ class Client extends Model
     {
         return $this->hasMany(Campaign::class);
     }
+
+    public function instanceMessages(): HasMany
+    {
+        return $this->hasMany(InstanceMessage::class);
+    }
 }

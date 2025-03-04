@@ -18,4 +18,6 @@ interface WhatsappServiceInterface {
 
     public static function getMessages($instanceName);
     public static function getChats($instanceName);
+
+    public static function setWebhook($instanceName, $data);
 }
