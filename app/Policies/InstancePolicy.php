@@ -32,8 +32,14 @@ class InstancePolicy
         $clientQuantityInstances = Instance::when($user->client, function($query, $client) {
             $query->where('client_id', $client->id);
         })->count();
+        
+        $isLimitReached = !($user->client && $user->client->plan->quantity_instance >= $clientQuantityInstances);
+        
+        if($user->client->plan->quantity_instance == 0) {
+            $isLimitReached = true;
+        }
 
-        $isLimitReached = !($user->client && $user->client->plan->quantity_instance == $clientQuantityInstances);
+        
         return $isLimitReached && $user->can('create_instances');
     }
 
