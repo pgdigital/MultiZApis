@@ -62,7 +62,7 @@
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$instance->status}}</td>
                     <td class="whitespace-nowrap px-4 py-3 sm:px-5 flex gap-2">
                       @if($instance->status != 'Conectado')
-                        <div x-data="instances('{{str_replace('https', 'wss', $instance->providerable->api_url).'/'.$instance->name}}','{{$instance->id}}', '{{$instance->name}}')" x-init="$watch('showModal', () => socketini())">
+                        <div x-data="instances('{{str_replace('https', 'wss', $instance->providerable->api_url).$instance->name}}','{{$instance->id}}', '{{$instance->name}}')" x-init="$watch('showModal', () => socketini())">
                           <button
                             @click="showModal = true"
                             title="Conectar ao Whatsapp"
@@ -143,8 +143,6 @@
               // socket.on('qrcode.updated', (data) => {
               //   this.qrCode = data.data.qrcode.base64
               // });
-              console.log(instanceId);
-              
 
               const {data} = await axios.get(`/api/instances/connect/${instanceId}`)
               this.qrCode = data.base64;
