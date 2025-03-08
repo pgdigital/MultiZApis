@@ -75,27 +75,31 @@ class InstanceController extends Controller
         Gate::authorize('update', $instance);
 
         try{
-            $instance->update([
-                'status' => 'Aguardando ler QrCode',
-            ]);
-            
-            $this->whatsappService->deleteInstance($instance->name);
+            $data = $this->whatsappService->deleteInstance($instance->name);
+
+            if($data['status'] == 'SUCCESS') {
+                $instance->update([
+                    'status' => 'Aguardando ler QrCode',
+                ]);
+
+                $this->whatsappService->createInstance([
+                    "instanceName" => $instance->name,
+                    "token" => $instance->token,
+                    "integration" => "WHATSAPP-BAILEYS"
+                ]);
+        
+                $this->whatsappService->setWebsocketInstance($instance->name, [
+                    "enabled" => true,
+                    "events" => [
+                        "QRCODE_UPDATED",
+                        "CONNECTION_UPDATE"
+                    ]
+                ]);
+
+                return back()->with('success', 'Instância recriada com sucesso!');
+            }
     
-            $this->whatsappService->createInstance([
-                "instanceName" => $instance->name,
-                "token" => $instance->token,
-                "integration" => "WHATSAPP-BAILEYS"
-            ]);
-    
-            $this->whatsappService->setWebsocketInstance($instance->name, [
-                "enabled" => true,
-                "events" => [
-                    "QRCODE_UPDATED",
-                    "CONNECTION_UPDATE"
-                ]
-            ]);
-    
-            return back()->with('success', 'Instância recriada com sucesso!');
+            return back()->with('error', 'Não foi possível excluir a instância!');
         } catch (\Exception $e) {
             Log::channel('daily')->error("Erro ao recriar instância: ".json_encode($e->getMessage()));
             return back()->with('error', 'Erro ao recriar instância!');
