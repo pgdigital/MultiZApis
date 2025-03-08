@@ -76,7 +76,7 @@ class InstanceController extends Controller
 
         try{
             $data = $this->whatsappService->deleteInstance($instance->name);
-            
+
             if($data['status'] == 'SUCCESS') {
                 $instance->update([
                     'status' => 'Aguardando ler QrCode',
@@ -95,9 +95,11 @@ class InstanceController extends Controller
                         "CONNECTION_UPDATE"
                     ]
                 ]);
+
+                return back()->with('success', 'Instância recriada com sucesso!');
             }
     
-            return back()->with('success', 'Instância recriada com sucesso!');
+            return back()->with('error', 'Não foi possível excluir a instância!');
         } catch (\Exception $e) {
             Log::channel('daily')->error("Erro ao recriar instância: ".json_encode($e->getMessage()));
             return back()->with('error', 'Erro ao recriar instância!');
