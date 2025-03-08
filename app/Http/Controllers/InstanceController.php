@@ -75,25 +75,27 @@ class InstanceController extends Controller
         Gate::authorize('update', $instance);
 
         try{
-            $instance->update([
-                'status' => 'Aguardando ler QrCode',
-            ]);
+            $data = $this->whatsappService->deleteInstance($instance->name);
             
-            $this->whatsappService->deleteInstance($instance->name);
-    
-            $this->whatsappService->createInstance([
-                "instanceName" => $instance->name,
-                "token" => $instance->token,
-                "integration" => "WHATSAPP-BAILEYS"
-            ]);
-    
-            $this->whatsappService->setWebsocketInstance($instance->name, [
-                "enabled" => true,
-                "events" => [
-                    "QRCODE_UPDATED",
-                    "CONNECTION_UPDATE"
-                ]
-            ]);
+            if($data['status'] == 'SUCCESS') {
+                $instance->update([
+                    'status' => 'Aguardando ler QrCode',
+                ]);
+
+                $this->whatsappService->createInstance([
+                    "instanceName" => $instance->name,
+                    "token" => $instance->token,
+                    "integration" => "WHATSAPP-BAILEYS"
+                ]);
+        
+                $this->whatsappService->setWebsocketInstance($instance->name, [
+                    "enabled" => true,
+                    "events" => [
+                        "QRCODE_UPDATED",
+                        "CONNECTION_UPDATE"
+                    ]
+                ]);
+            }
     
             return back()->with('success', 'Instância recriada com sucesso!');
         } catch (\Exception $e) {
