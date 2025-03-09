@@ -81,20 +81,22 @@ class InstanceController extends Controller
                 $instance->update([
                     'status' => 'Aguardando ler QrCode',
                 ]);
-
-                $this->whatsappService->createInstance([
-                    "instanceName" => $instance->name,
-                    "token" => $instance->token,
-                    "integration" => "WHATSAPP-BAILEYS"
-                ]);
-        
-                $this->whatsappService->setWebsocketInstance($instance->name, [
-                    "enabled" => true,
-                    "events" => [
-                        "QRCODE_UPDATED",
-                        "CONNECTION_UPDATE"
-                    ]
-                ]);
+                
+                retry(3, function() use ($instance) {
+                    $this->whatsappService->createInstance([
+                        "instanceName" => $instance->name,
+                        "token" => $instance->token,
+                        "integration" => "WHATSAPP-BAILEYS"
+                    ]);
+            
+                    $this->whatsappService->setWebsocketInstance($instance->name, [
+                        "enabled" => true,
+                        "events" => [
+                            "QRCODE_UPDATED",
+                            "CONNECTION_UPDATE"
+                        ]
+                    ]);
+                }, 2000);
 
                 return back()->with('success', 'Instância recriada com sucesso!');
             }
