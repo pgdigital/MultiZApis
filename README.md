@@ -1,12 +1,12 @@
-# PanelZap
+# MultiZApis
 
 ## English
-PanelZap is a powerful and intuitive tool designed to streamline your client and instance management tasks. With its user-friendly interface and robust features.
+MultiZApis is a powerful and intuitive tool designed to streamline your client and instance management tasks. With its user-friendly interface and robust features.
 
 ## Português
-PanelZap é uma ferramenta poderosa e intuitiva projetada para simplificar suas tarefas de gerenciamento de clientes e instâncias. Com sua interface amigável e recursos robustos.
+MultiZApis é uma ferramenta poderosa e intuitiva projetada para simplificar suas tarefas de gerenciamento de clientes e instâncias. Com sua interface amigável e recursos robustos.
 
-## How to Run PanelZap
+## How to Run MultiZApis
 
 ### English
 
@@ -62,7 +62,7 @@ PanelZap é uma ferramenta poderosa e intuitiva projetada para simplificar suas 
 
 #### English
 
-To deploy PanelZap using Portainer, follow these steps:
+To deploy MultiZApis using Portainer, follow these steps:
 
 1. **Create a new stack:**
     - Open Portainer and navigate to the "Stacks" section.
@@ -78,7 +78,7 @@ To deploy PanelZap using Portainer, follow these steps:
 
 #### Português
 
-Para implantar o PanelZap usando o Portainer, siga estes passos:
+Para implantar o MultiZApis usando o Portainer, siga estes passos:
 
 1. **Crie uma nova stack:**
     - Abra o Portainer e navegue até a seção "Stacks".
@@ -94,8 +94,8 @@ Para implantar o PanelZap usando o Portainer, siga estes passos:
 
 ### English
 
-Follow these steps to deploy PanelZap in a production environment. For a detailed walkthrough, watch our [deployment video](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
+Follow these steps to deploy MultiZApis in a production environment. For a detailed walkthrough, watch our [deployment video](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
 
 ### Português
 
-Siga estes passos para implantar o PanelZap em um ambiente de produção. Para um tutorial detalhado, assista ao nosso [vídeo de implantação](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
+Siga estes passos para implantar o MultiZApis em um ambiente de produção. Para um tutorial detalhado, assista ao nosso [vídeo de implantação](https://www.youtube.com/watch?v=frFe-enogq0&t=1s).
